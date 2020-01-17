@@ -1225,6 +1225,8 @@ namespace OCalcProPlugin
             PPLMessageBox.Show(Environment.UserName);
             Thread.Sleep(30000);
             PPLMain pMain = null;
+            int x = 7;
+            int testBranch = 15;
             foreach(Form f in Application.OpenForms)
             {
                 //if (f.Name is "PGE_PPL")
