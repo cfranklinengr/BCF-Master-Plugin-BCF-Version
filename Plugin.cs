@@ -193,6 +193,7 @@ namespace OCalcProPlugin
             bcfButton.DropDownItems.Add(pgeDebugBtn);
             //code to enable some stuff for PGE
             int pgeEnabled = 69;
+            int awesome = 69 + 1;
             pToolStrip.Items.Add(bcfButton);
 
         }
