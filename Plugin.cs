@@ -1212,47 +1212,73 @@ namespace OCalcProPlugin
             //SendKeys.Send("{ENTER}");
         }
 
+        public void GetOcalcRef(PPLMain pMain)
+        {
+            pMain = null;
+            foreach (Form f in Application.OpenForms)
+            {
+                if (f.Name is "PGE_PPL")
+                {
+                    pMain = f.ActiveControl as PPLMain;
+                }
+
+                if (f.Name is "PGE_DataBlockForm")
+                {
+                    var pge = f;
+                    foreach (Control ctl in pge.Controls)
+                    {
+
+                    }
+
+                }
 
 
+                if (f.Name is "Form1")
+                {
+                    foreach (Control ctl in f.Controls)
+                    {
+
+                    }
+                }
+            }
+
+        }
 
         public void PgeDebug()
         {
-            Thread th = new Thread(OverrideFaa);
+            int formCount = Application.OpenForms.Count;
+            Thread th = new Thread(SideJob);
             th.Start();
+            while (Application.OpenForms.Count == formCount)
+            {
 
+            }
+
+            
             ///////////////////
             ///reference to pplmain
-            PPLMessageBox.Show(Environment.UserName);
-            Thread.Sleep(30000);
-            PPLMain pMain = null;
-            int x = 7;
-            int testBranch = 15;
-            foreach(Form f in Application.OpenForms)
+            foreach (Form f in Application.OpenForms)
             {
-                //if (f.Name is "PGE_PPL")
-                //{
-                //    pMain = f.ActiveControl as PPLMain;
-                //}
+                if (f.Name is "PGE_DataBlockForm")
+                {
+                    var pge = f;
+                    foreach (Control ctl in pge.Controls)
+                    {
 
-                //if (f.Name is "PGE_DataBlockForm")
-                //{
-                //    var pge = f;
-                //    foreach(Control ctl in pge.Controls)
-                //    {
+                    }
 
-                //    }
-                    
-                //}
+                }
 
 
-            //    if  (f.Name is "Form1")
-            //    {
-            //        foreach (Control ctl in f.Controls)
-            //        {
+                if (f.Name is "Form1")
+                {
+                    foreach (Control ctl in f.Controls)
+                    {
 
-            //        }
-            //    }
+                    }
+                }
             }
+
             th.Abort();
 
 

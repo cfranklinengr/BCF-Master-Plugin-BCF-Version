@@ -194,6 +194,7 @@ namespace OCalcProPlugin
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            progressBar1.Value = 50;
         }
 
 
