@@ -1259,23 +1259,40 @@ namespace OCalcProPlugin
             ///reference to pplmain
             foreach (Form f in Application.OpenForms)
             {
-                if (f.Name is "PGE_DataBlockForm")
+                //if (f.Name is "PGE_DataBlockForm")
+                //{
+                //    var pge = f;
+                //    foreach (Control ctl in pge.Controls)
+                //    {
+                //        foreach (Control c in ctl.Controls)
+                //        {
+
+                //        }
+
+                //    }
+
+                //}
+
+
+                //if (f.Name is "Form1")
+                //{
+                //    foreach (Control ctl in f.Controls)
+                //    {
+
+                //    }
+                //}
+
+                foreach (Control c in f.Controls)
                 {
-                    var pge = f;
-                    foreach (Control ctl in pge.Controls)
+                    foreach (Control ctl in c.Controls)
                     {
+                        foreach (Control j in ctl.Controls)
+                        {
+
+                        }
 
                     }
 
-                }
-
-
-                if (f.Name is "Form1")
-                {
-                    foreach (Control ctl in f.Controls)
-                    {
-
-                    }
                 }
             }
 
