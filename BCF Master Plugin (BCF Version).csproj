@@ -106,6 +106,8 @@
     <PostBuildEvent>copy /Y "$(TargetDir)$(AssemblyName).dll" "$(TargetDir)$(ProjectName).pplugin"
 copy /Y "$(TargetDir)$(AssemblyName).dll" "C:\Users\cfranklin\OneDrive - Blair, Church &amp; Flynn\Ocalc\Osmose\O-Calc Pro\Bin\Plugins\$(ProjectName).pplugin"
 copy /Y "$(TargetDir)$(AssemblyName).pdb" "C:\Users\cfranklin\OneDrive - Blair, Church &amp; Flynn\Ocalc\Osmose\O-Calc Pro\Bin\Plugins\$(ProjectName).pdb"
+copy /Y "$(TargetDir)$(AssemblyName).dll" "C:\Users\cfranklin\OneDrive - Blair, Church &amp; Flynn\Ocalc\Osmose\O-Calc Pro\Bin\Plugins\$(ProjectName).pplugin"
+copy /Y "$(TargetDir)$(AssemblyName).pdb" "C:\Users\cfranklin\OneDrive - Blair, Church &amp; Flynn\Ocalc\Osmose\O-Calc Pro\Bin\Plugins\$(ProjectName).pdb"
 reg add "HKCU\Software\PPL\Plugins" /f /v "$(ProjectName).pplugin" /t REG_SZ /d "Yes"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
