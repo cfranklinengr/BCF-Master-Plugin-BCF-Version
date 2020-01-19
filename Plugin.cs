@@ -676,32 +676,36 @@ namespace OCalcProPlugin
 
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public void SaveFiles()
+        public System.Windows.Forms.ProgressBar GetProgBar(MyProgBar progBarFrm)
         {
-            Form currForm = Form.ActiveForm;
-
-            Form1 frm = new Form1();
-            frm.Text = "Saving Files";
-            frm.Show();
-            foreach (Control ct in frm.Controls)
+            System.Windows.Forms.ProgressBar pBar = null;
+            foreach (Control c in progBarFrm.Controls)
             {
-                if (ct is ProgressBar)
+                if (c is System.Windows.Forms.ProgressBar)
                 {
-                    ProgressBar bar = ct as ProgressBar;
-                    bar.Increment(50);
+                    pBar = c as System.Windows.Forms.ProgressBar;
+                    return pBar;
                 }
             }
-            //pbar.Width = 700;
-            //int width = pbar.Width;
-            //frm.Controls.Add(pbar);
-            //frm.Show();
+            return null;
+        }
 
 
+        public void SaveFiles()
+        {
             PPLPole pole = cPPLMain.GetPole();
             List<TreeNode> treeNodeList = cPPLMain.cCatalogManager.GetNodes(PPLCatalogForm.CATALOG_TYPE.MASTER);
             List<PPLEnvironment> envList = pole.GetEnvironments();
             string sapPM = pole.GetValueString("Aux Data 1");
             string ocalcPoleLoc = pole.GetValueString("Aux Data 3");
+
+            MyProgBar pBarFrm = new MyProgBar();
+            ProgressBar pBar = GetProgBar(pBarFrm);
+            pBar.Minimum = 0;
+            pBar.Maximum = 3;
+            pBar.Value = 0;
+            pBarFrm.Show();
+
 
 
             //get existing HFTD load case and replace it from the treelist to fix NESC issue
@@ -739,10 +743,14 @@ namespace OCalcProPlugin
             System.IO.Directory.CreateDirectory(go95Folder);
 
             SavePPLX(cPPLMain, pplxFileName);
+            pBar.Value = 1;
             
             SaveGO95(cPPLMain, pole, go95FileName);
+            pBar.Value = 2;
 
             SaveCustomReport(cPPLMain, osmoseCustomReportFileName, customReportFileName);
+            pBar.Value = 3;
+
 
 
 
@@ -751,6 +759,7 @@ namespace OCalcProPlugin
 
 
             PPLMessageBox.Show("Files Saved!");
+            pBarFrm.Close();
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1165,10 +1174,6 @@ namespace OCalcProPlugin
 
         public void SideJob()
         {
-            Form1 frm1 = new Form1();
-            frm1.ShowDialog();
-
-
         }
 
 
@@ -1281,7 +1286,7 @@ namespace OCalcProPlugin
 
                 //    }
                 //}
-
+                
                 foreach (Control c in f.Controls)
                 {
                     foreach (Control ctl in c.Controls)
