@@ -676,19 +676,61 @@ namespace OCalcProPlugin
 
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        public System.Windows.Forms.ProgressBar GetProgBar(MyProgBar progBarFrm)
+        public System.Windows.Forms.ProgressBar GetProgBar(MyProgBar progBarFrm, string pBarName)
         {
             System.Windows.Forms.ProgressBar pBar = null;
             foreach (Control c in progBarFrm.Controls)
             {
                 if (c is System.Windows.Forms.ProgressBar)
                 {
-                    pBar = c as System.Windows.Forms.ProgressBar;
-                    return pBar;
+                    if (c.Name.Equals(pBarName))
+                    {
+                        pBar = c as System.Windows.Forms.ProgressBar;
+                        return pBar;
+
+                    }
                 }
             }
             return null;
         }
+
+        public Label GetLabel(MyProgBar progBarFrm, string labelName)
+        {
+            Label pLabel = null;
+            foreach (Control c in progBarFrm.Controls)
+            {
+                if (c is Label)
+                {
+                    if (c.Text.Equals(labelName))
+                    {
+                        pLabel = c as Label;
+                        return pLabel;
+
+                    }
+                }
+            }
+            return null;
+
+        }
+
+        public Button GetFormButton(MyProgBar progBarFrm, string btnTxt)
+        {
+            Button btn = null;
+            foreach (Control c in progBarFrm.Controls)
+            {
+                if (c is Button)
+                {
+                    if (c.Text.Equals(btnTxt))
+                    {
+                        btn = c as Button;
+                        return btn;
+
+                    }
+                }
+            }
+            return null;
+        }
+
 
 
         public void SaveFiles()
@@ -699,11 +741,34 @@ namespace OCalcProPlugin
             string sapPM = pole.GetValueString("Aux Data 1");
             string ocalcPoleLoc = pole.GetValueString("Aux Data 3");
 
+
             MyProgBar pBarFrm = new MyProgBar();
-            ProgressBar pBar = GetProgBar(pBarFrm);
-            pBar.Minimum = 0;
-            pBar.Maximum = 3;
-            pBar.Value = 0;
+            pBarFrm.Text = "Process: BCF Save Files";
+            //pBarFrm.BackColor = System.Drawing.Color.Black;
+            //pBarFrm.FormBorderStyle = FormBorderStyle.None;
+
+            //Get reference to progress bar
+            ProgressBar pBarBottom  = GetProgBar(pBarFrm, "bottomBar");
+            ProgressBar pBarTop = GetProgBar(pBarFrm, "topBar");
+            pBarTop.Visible = false;
+
+            //Get references to labels in MyProgBar Form
+            Label topLabel = GetLabel(pBarFrm, "Top");
+            topLabel.Visible = false;
+            topLabel.Text = "Processing Files...";
+            //topLabel.ForeColor = System.Drawing.Color.White;
+
+            //Get reference to OK button
+            Button okButton = GetFormButton(pBarFrm, "OK");
+
+            Label bottomLabel = GetLabel(pBarFrm, "Bottom");
+            bottomLabel.Text = "Calculating...";
+            //bottomLabel.ForeColor = System.Drawing.Color.White;
+
+
+            pBarBottom.Minimum = 0;
+            pBarBottom.Maximum = 3;
+            pBarBottom.Value = 0;
             pBarFrm.Show();
 
 
@@ -742,24 +807,21 @@ namespace OCalcProPlugin
             System.IO.Directory.CreateDirectory(customReportFolder);
             System.IO.Directory.CreateDirectory(go95Folder);
 
+            bottomLabel.Text = "Saving PPLX File...";
             SavePPLX(cPPLMain, pplxFileName);
-            pBar.Value = 1;
-            
+            pBarBottom.Value += 1;
+
+            bottomLabel.Text = "Saving GO95 Report...";
             SaveGO95(cPPLMain, pole, go95FileName);
-            pBar.Value = 2;
+            pBarBottom.Value += 1;
 
+            bottomLabel.Text = "Saving Custom Report...";
             SaveCustomReport(cPPLMain, osmoseCustomReportFileName, customReportFileName);
-            pBar.Value = 3;
+            pBarBottom.Value += 1;
 
+            okButton.Visible = true;
+            bottomLabel.Text = "Save Completed";
 
-
-
-
-
-
-
-            PPLMessageBox.Show("Files Saved!");
-            pBarFrm.Close();
         }
 
         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
